@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cors from "cors"
 import connectToMongoose from "../utils/mongoose_connect.js"
 import authRoutes from "./routes/auth_routes.js"
+import favoritesRoutes from "./routes/favorites_routes.js"
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use(cookieParser());
 
 // 4. Routes (nicht mehr im Mongoose-Check!)
 app.use(authRoutes);
+app.use("/favorites", favoritesRoutes);
 
 // 5. Error Handler
 app.use((err, req, res, next) => {

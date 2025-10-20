@@ -31,8 +31,8 @@ const user_model = new mongoose.Schema({
     description: {
         type: String,
     },
-    favorite_movies: {
-        type: [String],
+    favorites: {
+        type: [Number],
         default: []
     },
     profileCompleted: {
