@@ -13,7 +13,6 @@ import isAuth from "../middleware/auth.js"
 
 router.post("/signup", signUpSchema, valid, SignUpController);
 router.post("/login", loginSchema, loginController)
-router.post("/userprofil", userProfil)
 router.get("/currentUser", currentUserController)
 
 

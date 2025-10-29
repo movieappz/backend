@@ -4,10 +4,8 @@ import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-// Favoriten umschalten (hinzufügen/entfernen)
-router.post("/toggle/:movieId", auth, toggleFavorite);
 
-// Alle Favoriten eines Benutzers abrufen
+router.post("/toggle/:movieId", auth, toggleFavorite);
 router.get("/", auth, getFavorites);
 
 export default router;

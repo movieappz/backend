@@ -3,7 +3,7 @@ import UserModel from "../models/user_model.js";
 export const toggleFavorite = async (req, res) => {
     try {
         const { movieId } = req.params;
-        const userId = req.userId; // Aus dem Auth-Middleware
+        const userId = req.userId;
 
         if (!userId) {
             return res.status(401).json({
@@ -38,10 +38,10 @@ export const toggleFavorite = async (req, res) => {
 
         let updatedFavorites;
         if (isFavorite) {
-            // Film aus Favoriten entfernen
+            // ! Film aus Favoriten entfernen diggiii
             updatedFavorites = user.favorites.filter(id => id !== movieIdNumber);
         } else {
-            // Film zu Favoriten hinzufügen
+            // ! Film zu Favoriten hinzufügen :D
             updatedFavorites = [...user.favorites, movieIdNumber];
         }
 
@@ -69,9 +69,12 @@ export const toggleFavorite = async (req, res) => {
     }
 };
 
+
+
+
 export const getFavorites = async (req, res) => {
     try {
-        const userId = req.userId; // Aus dem Auth-Middleware
+        const userId = req.userId;
 
         if (!userId) {
             return res.status(401).json({

@@ -18,26 +18,10 @@ const user_model = new mongoose.Schema({
         type: String,
         required: true,
     },
-
+    favorites: [Number],
     createdAt: {
         type: Date,
-        immutable: true,
-        default: () => new Date(),
-    },
-    updatedAt: {
-        type: Date,
-        default: () => new Date(),
-    },
-    description: {
-        type: String,
-    },
-    favorites: {
-        type: [Number],
-        default: []
-    },
-    profileCompleted: {
-        type: Boolean,
-        default: false
+        default: Date.now,
     },
 });
 

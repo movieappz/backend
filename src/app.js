@@ -16,8 +16,7 @@ const server = createServer(app)
 
 const allowedOrigins = ["http://localhost:5173"];
 
-// ⚠️ WICHTIG: Reihenfolge der Middleware!
-// 1. CORS ZUERST
+
 app.use(
     cors({
         origin: allowedOrigins,
@@ -27,24 +26,23 @@ app.use(
     })
 );
 
-// 2. Body Parser
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 3. Cookie Parser
 app.use(cookieParser());
 
-// 4. Routes (nicht mehr im Mongoose-Check!)
-app.use(authRoutes);
+
+app.use("/auth", authRoutes);
 app.use("/favorites", favoritesRoutes);
 
-// 5. Error Handler
+
 app.use((err, req, res, next) => {
     console.error('Error:', err);
     res.status(500).json({ error: err.message });
 });
 
-// ⚠️ Mongoose Connection EINMAL beim Start
+
 (async () => {
     const connected = await connectToMongoose();
     if (connected) {
