@@ -14,18 +14,19 @@ const app = express()
 const PORT = process.env.PORT || 2000;
 const server = createServer(app)
 
-const allowedOrigins = ["http://localhost:5173", "https://yourmoviez.vercel.app"];
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://yourmoviez.vercel.app"
+];
 
-
-app.use(
-    cors({
-        origin: allowedOrigins,
-        credentials: true,
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-        allowedHeaders: ['Content-Type', 'Authorization']
-    })
-);
-
+const corsOptions = {
+    origin: allowedOrigins,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
