@@ -20,12 +20,19 @@ async function connectToMongoose() {
             _uri = `mongodb+srv://${_user}:${_pwd}@${_cluster}/${_database}?retryWrites=true&w=majority`;
         }
 
+        // Minimales Logging ohne Credentials
+        try {
+            const safeInfo = new URL(_uri);
+            console.info("Connecting to MongoDB", { host: safeInfo.host, pathname: safeInfo.pathname });
+        } catch { }
 
         await mongoose.connect(_uri, {
             maxPoolSize: 10,
             serverSelectionTimeoutMS: 10000,
             socketTimeoutMS: 45000,
             connectTimeoutMS: 10000,
+            tls: true,
+            family: 4,
         });
 
         await mongoose.connection.asPromise();
