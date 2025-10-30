@@ -1,4 +1,5 @@
 import express from "express"
+import { createServer } from "http";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cors from "cors"
@@ -10,35 +11,17 @@ dotenv.config();
 
 const app = express()
 
-const allowedOrigins = [
-    "https://yourmoviez.vercel.app",
-    "http://localhost:5173"
-];
+const PORT = process.env.PORT || 2000;
+const server = createServer(app)
+
+const allowedOrigins = ["http://localhost:5173", "https://yourmoviez.vercel.app"];
 
 const corsOptions = {
-    origin: (origin, callback) => {
-        // Erlaube fehlende Origin (z.B. Server-to-Server, Healthchecks)
-        if (!origin) return callback(null, true);
-        const isAllowed = allowedOrigins.includes(origin);
-        return callback(null, isAllowed);
-    },
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
-    optionsSuccessStatus: 204,
+    allowedHeaders: ["Content-Type", "Authorization"],
 };
-
-// Setze dynamisch ACAO/ACAC; Vary schützt Caches
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if (origin && allowedOrigins.includes(origin)) {
-        res.header("Access-Control-Allow-Origin", origin);
-        res.header("Vary", "Origin");
-    }
-    res.header("Access-Control-Allow-Credentials", "true");
-    next();
-});
-
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
@@ -57,15 +40,18 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: err.message });
 });
 
-// In Serverless-Umgebungen (z.B. Vercel) darf nicht aktiv gelauscht werden.
-// Wir verbinden die DB lazily beim ersten Request.
-let mongooseReady = false;
-app.use(async (req, res, next) => {
-    if (!mongooseReady) {
-        const connected = await connectToMongoose();
-        mongooseReady = Boolean(connected);
+
+(async () => {
+    const connected = await connectToMongoose();
+    if (connected) {
+        console.log("✅ MongoDB connected successfully");
+        server.listen(PORT, () => {
+            console.log(`🚀 Server running on http://localhost:${PORT}`);
+        });
+    } else {
+        console.error("❌ Server not started: Mongoose connection failed.");
+        process.exit(1);
     }
-    return next();
-});
+})();
 
 export default app;
