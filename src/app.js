@@ -11,8 +11,8 @@ dotenv.config();
 const app = express()
 
 const allowedOrigins = [
-    "http://localhost:5173",
-    "https://yourmoviez.vercel.app"
+    "https://yourmoviez.vercel.app",
+    "http://localhost:5173"
 ];
 
 const corsOptions = {
