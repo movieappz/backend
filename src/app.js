@@ -14,7 +14,7 @@ const app = express()
 const PORT = process.env.PORT || 2000;
 const server = createServer(app)
 
-const allowedOrigins = ["http://localhost:5173", "https://yourmoviez.vercel.app/"];
+const allowedOrigins = ["http://localhost:5173", "https://yourmoviez.vercel.app"];
 
 
 app.use(
