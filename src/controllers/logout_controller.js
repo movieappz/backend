@@ -1,6 +1,5 @@
 export const logoutController = async (req, res) => {
     try {
-        // Cookie mit identischen Attributen leeren
         res.clearCookie("token", {
             httpOnly: true,
             sameSite: "none",

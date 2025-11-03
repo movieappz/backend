@@ -24,7 +24,7 @@ const corsOptions = {
     optionsSuccessStatus: 204,
 };
 
-// Dynamische CORS-Header setzen
+
 app.use((req, res, next) => {
     const origin = req.headers.origin;
     if (origin && allowedOrigins.includes(origin)) {
@@ -44,7 +44,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 
-// Lazy-Connect zur DB: keine Prozessbeendigung in Serverless
+
 let mongooseReady = false;
 app.use(async (req, res, next) => {
     if (!mongooseReady) {
@@ -53,7 +53,7 @@ app.use(async (req, res, next) => {
         if (!mongooseReady) {
             return res.status(503).json({ error: "Database unavailable" });
         }
-        console.log("✅ MongoDB connected successfully");
+        console.log("MongoDB connected successfully");
     }
     return next();
 });

@@ -6,9 +6,7 @@ import valid from "../middleware/valid.js";
 import { SignUpController } from "../controllers/signUp_controller.js"
 import { loginController } from "../controllers/login_controller.js";
 import { logoutController } from "../controllers/logout_controller.js";
-import { userProfil } from "../controllers/user_controller.js";
 import { currentUserController } from "../controllers/currentUser_controller.js";
-import isAuth from "../middleware/auth.js"
 
 
 
