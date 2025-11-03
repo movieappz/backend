@@ -44,15 +44,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 
-app.use("/auth", authRoutes);
-app.use("/favorites", favoritesRoutes);
-
-
-app.use((err, req, res, next) => {
-    console.error('Error:', err);
-    res.status(500).json({ error: err.message });
-});
-
 // Lazy-Connect zur DB: keine Prozessbeendigung in Serverless
 let mongooseReady = false;
 app.use(async (req, res, next) => {
@@ -66,6 +57,15 @@ app.use(async (req, res, next) => {
         console.log("✅ MongoDB connected successfully");
     }
     return next();
+});
+
+app.use("/auth", authRoutes);
+app.use("/favorites", favoritesRoutes);
+
+
+app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).json({ error: err.message });
 });
 
 export default app;
