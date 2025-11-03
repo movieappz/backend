@@ -51,7 +51,6 @@ app.use(async (req, res, next) => {
         const connected = await connectToMongoose();
         mongooseReady = Boolean(connected);
         if (!mongooseReady) {
-            // Liefere 503 statt Prozess zu beenden
             return res.status(503).json({ error: "Database unavailable" });
         }
         console.log("✅ MongoDB connected successfully");
